@@ -2,17 +2,18 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>canvas</title>
+    <title>canying2</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
+    <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
     <style>
       * { margin: 0; padding: 0; }
       canvas {
         margin-left: 100px;
         margin-top: 100px;
-        background-color: #000;
+        background-color: #fff;
       }
     </style>
 </head>
@@ -20,7 +21,7 @@
 <body>
 
   <canvas id="wsq" width="300" height="300">
-    不支持canvas, 骚年
+    
   </canvas>
 
   <script>
@@ -28,18 +29,50 @@
     var context = canvas.getContext('2d');
     var x = 0;
     var y = 0;
+    var trails = [
+      [-10, -10],
+      [-8, -8],
+      [-6, -6],
+      [-5, -5],
+      [-4, -4],
+      [-2, -2],
+      [-1, -1]
+    ];
+
+    function drawTrails() {
+
+      var len = trails.length;
+      context.save();
+      
+      for (var i = 0; i < len; i++) {
+        context.globalAlpha = 1 - ( (len - i) / len ) + 0.1;
+        context.fillRect(trails[i][0], trails[i][1], 50, 50);
+      }
+
+      context.restore();
+    }
     
+
     setInterval(function() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
       context.fillStyle = 'rgba(255, 255, 255, 0.1)';
       context.fillRect(0, 0, canvas.width, canvas.height);
 
       context.fillStyle = '#faf';
       context.fillRect(x, y, 50, 50);
-    
+      drawTrails();
+
       x++;
       y++;
 
+      for (var i = 0; i < trails.length; i++) {
+        trails[i][0] += 1;
+        trails[i][1] += 1;
+      }
+
     }, 17);
+
   </script>
 </body>
 </html>
